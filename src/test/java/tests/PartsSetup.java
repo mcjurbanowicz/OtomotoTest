@@ -35,8 +35,8 @@ public class PartsSetup{
         AndroidDriver driver = new AndroidDriver<>(new URL("http://0.0.0.0:4723/wd/hub"), caps);
 
         FluentWait<AndroidDriver> wait = new FluentWait<>((AndroidDriver) driver)
-                .pollingEvery(Duration.ofMillis(500))
-                .withTimeout(Duration.ofSeconds(30))
+                .pollingEvery(Duration.ofMillis(1000))
+                .withTimeout(Duration.ofSeconds(80))
                 .ignoring(NoSuchElementException.class)
                 .ignoring(StaleElementReferenceException.class)
                 .ignoring(NullPointerException.class)

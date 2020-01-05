@@ -21,12 +21,12 @@ public class PartsTest extends PartsSetup{
     public void beforeFirstTest() throws  Exception {
         new PartsPage(driver).prepareFirstTest();
     }
-/*
+
     @Test
     public void firstTest() throws InterruptedException {
         new PartsPage(driver).partsInternetOff();
     }
-*/
+
     @Test
     public void secondTest() throws InterruptedException {
         new PartsPage(driver).partsInternetOn();

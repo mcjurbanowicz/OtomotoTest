@@ -7,6 +7,7 @@ import tests.PartsSetup;
 import java.util.concurrent.TimeUnit;
 
 public class PartsPage extends BasePage {
+    //locator section
     By tryAgainConnection_Button = By.id("pl.otomoto:id/activity_startup_splash_error_button");
     By czesci_Button = By.xpath("//*[@class='androidx.appcompat.app.ActionBar$b' and ./*[./*[@text='CZĘŚCI']]]");
     By moreFilters_Text = By.id("pl.otomoto:id/show_more_filters");
@@ -27,39 +28,33 @@ public class PartsPage extends BasePage {
     public PartsPage(AndroidDriver driver) {super(driver);}
 
     public PartsPage prepareFirstTest() {
-        //System.out.println(isConnectionOn());
-
-        //turnConnectionOff(isConnectionOn());
-        //System.out.println(isConnectionOn());
+        turnConnectionOff();
         executeAdbShell("wm density 280");
         executeAdbShell("settings put system font_scale 1.0");
         executeAdbShell(("am start -n " + PartsSetup.apkPackage + "/" + PartsSetup.apkActivity));
-        //driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
-        //create  for wait method
-
+        waitTime(5000);
         return new PartsPage(driver);
     }
 
     public PartsPage partsInternetOff() {
 
         click(tryAgainConnection_Button);
-        turnConnectionOn(isConnectionOn());
+        turnConnectionOn();
 
         click(tryAgainConnection_Button);
+        waitTime(4000);
         return new PartsPage(driver);
     }
 
     public PartsPage partsInternetOn() {
-        //turnConnectionOn(isConnectionOn());
-        //driver.manage().timeouts().setScriptTimeout(15, TimeUnit.SECONDS);
-
         click(czesci_Button);
         click(moreFilters_Text);
 
-        //Fix
+        //To fix
         //driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true).instance(1)).scrollIntoView(new UiSelector().childSelector(new UiScrollable().textContains(\""+rodzajCzesci_String+"\")).instance(1))");
+
         click(rodzajCzesci_Field);
-        waitForLocator(field_List);
+        //To fix waitForLocator(field_List);
         driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().textContains(\""+rodzajCzesciSearch_String+"\").instance(0))");
         click(felgi_ListElement);
         waitForLocator(mainView_Element);

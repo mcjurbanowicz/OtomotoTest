@@ -22,7 +22,7 @@ public class BasePage {
     public void executeAdbShell(String adbShellCommand) {
         driver.executeScript("mobile: shell", ImmutableMap.of("command", adbShellCommand));
     }
-/*
+
     public void setWait() {
         FluentWait<AndroidDriver> wait = new FluentWait<>((AndroidDriver) driver)
                 .pollingEvery(Duration.ofMillis(500))
@@ -32,7 +32,6 @@ public class BasePage {
                 .ignoring(NullPointerException.class)
                 .ignoring(ClassCastException.class);
     }
-*/
 
     public AndroidElement findLocator(By locator) {
         return (AndroidElement) driver.findElement(locator);
@@ -53,6 +52,13 @@ public class BasePage {
         findLocator(locator).sendKeys(keys);
     }
 
+    public void waitTime(int msTime) {
+        try {
+            Thread.sleep(msTime);
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        }
+    }
     //Connection section
 
     public boolean isDataOn() {
@@ -75,11 +81,6 @@ public class BasePage {
 
     public boolean isConnectionOn() {
         boolean isConnectionOn = isDataOn() || (isWifiOn() && isSsidConnected());
-        System.out.println(isDataOn());
-        System.out.println(isWifiOn());
-        System.out.println(isSsidConnected());
-        System.out.println("is connection ON");
-        System.out.println(isConnectionOn);
         return isConnectionOn;
     }
 
@@ -87,15 +88,16 @@ public class BasePage {
         driver.toggleWifi();
     }
 
-    public void turnConnectionOff(boolean isConnectionOn) {
-        if (isConnectionOn) {
+    public void turnConnectionOff() {
+        if (isConnectionOn()) {
             toggleWifi();
         }
     }
 
-    public void turnConnectionOn(boolean isConnectionOn) {
-        if (!isConnectionOn) {
-            toggleWifi();}
+    public void turnConnectionOn() {
+        if (!isConnectionOn()) {
+            toggleWifi();
+            waitTime(7000);
+        }
     }
-
 }
